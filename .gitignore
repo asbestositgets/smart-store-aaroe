@@ -1,4 +1,11 @@
-# This .gitignore file lists content that does NOT need to be tracked in the project history
+jdk/Contents/Home/lib/
+kafka/libs/
+spark/jars/
+spark/yarn/
+
+
+X# This .gitignore file lists content that does NOT need to be tracked in 
+the project history
 
 # Python virtual environment folder
 .venv/
