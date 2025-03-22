@@ -1,3 +1,8 @@
+spark/jars/rocksdbjni-8.3.2.jar
+spark/yarn/spark-3.5.5-yarn-shuffle.jar
+jdk/Contents/Home/lib/src.zip
+kafka/libs/rocksdbjni-7.9.2.jar
+jdk/Contents/Home/lib/modules
 jdk/Contents/Home/lib/
 kafka/libs/
 spark/jars/
