@@ -1,5 +1,6 @@
 # smart-store-aaroe
 BI project client 01
+<<<<<<< HEAD
 ## Saving Changes to GitHub:
 
 Here are the commands to save changes and push them to GitHub:
@@ -34,3 +35,5 @@ To get started with your project, follow these steps:
 
 ```bash
 cd /Users/alijah/Projects/smart-store-aaroe
+=======
+>>>>>>> 6d4791c (Initial commit)
