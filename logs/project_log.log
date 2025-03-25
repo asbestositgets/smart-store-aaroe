@@ -66,3 +66,129 @@
 2025-03-24 20:05:37.302 | INFO     | __main__:main:124 - ======================
 2025-03-24 20:05:37.302 | INFO     | __main__:main:125 - FINISHED data_prep.py
 2025-03-24 20:05:37.302 | INFO     | __main__:main:126 - ======================
+2025-03-25 16:47:54.502 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-25 16:47:54.504 | INFO     | __main__:main:200 - ==================================
+2025-03-25 16:47:54.504 | INFO     | __main__:main:201 - STARTING prepare_products_data.py
+2025-03-25 16:47:54.505 | INFO     | __main__:main:202 - ==================================
+2025-03-25 16:47:54.505 | INFO     | __main__:main:204 - Root project folder: /Users/alijah/Projects/smart-store-aaroe
+2025-03-25 16:47:54.506 | INFO     | __main__:main:205 - data / raw folder: /Users/alijah/Projects/smart-store-aaroe/data/raw
+2025-03-25 16:47:54.506 | INFO     | __main__:main:206 - data / prepared folder: /Users/alijah/Projects/smart-store-aaroe/data/prepared
+2025-03-25 16:47:54.506 | INFO     | __main__:read_raw_data:32 - FUNCTION START: read_raw_data with file_name=products_data.csv
+2025-03-25 16:47:54.506 | INFO     | __main__:read_raw_data:34 - Reading data from /Users/alijah/Projects/smart-store-aaroe/data/raw/products_data.csv
+2025-03-25 16:47:54.581 | INFO     | __main__:read_raw_data:36 - Loaded dataframe with 8 rows and 6 columns
+2025-03-25 16:47:54.582 | INFO     | __main__:main:215 - Initial dataframe columns: ProductID, ProductName, Category, UnitPrice, StockQuantity, SubCategory
+2025-03-25 16:47:54.582 | INFO     | __main__:main:216 - Initial dataframe shape: (8, 6)
+2025-03-25 16:47:54.590 | INFO     | __main__:main:225 - Cleaned column names: ProductID -> productid, ProductName -> productname, Category -> category, UnitPrice -> unitprice, StockQuantity -> stockquantity, SubCategory -> subcategory
+2025-03-25 16:47:54.590 | INFO     | __main__:remove_duplicates:69 - FUNCTION START: remove_duplicates with dataframe shape=(8, 6)
+2025-03-25 16:47:54.612 | INFO     | __main__:remove_duplicates:79 - Removed 0 duplicate rows
+2025-03-25 16:47:54.613 | INFO     | __main__:remove_duplicates:80 - 8 records remaining after removing duplicates.
+2025-03-25 16:47:54.613 | INFO     | __main__:handle_missing_values:94 - FUNCTION START: handle_missing_values with dataframe shape=(8, 6)
+2025-03-25 16:47:54.620 | INFO     | __main__:handle_missing_values:99 - Missing values by column before handling:
+productid        0
+productname      0
+category         0
+unitprice        0
+stockquantity    1
+subcategory      0
+dtype: int64
+2025-03-25 16:47:54.622 | INFO     | __main__:handle_missing_values:113 - Missing values by column after handling:
+productid        0
+productname      0
+category         0
+unitprice        0
+stockquantity    1
+subcategory      0
+dtype: int64
+2025-03-25 16:47:54.622 | INFO     | __main__:handle_missing_values:114 - 8 records remaining after handling missing values.
+2025-03-25 16:47:54.623 | INFO     | __main__:standardize_formats:161 - FUNCTION START: standardize_formats with dataframe shape=(8, 6)
+2025-03-25 16:47:54.629 | INFO     | __main__:standardize_formats:171 - Completed standardizing formats
+2025-03-25 16:47:54.633 | INFO     | __main__:remove_outliers:128 - FUNCTION START: remove_outliers with dataframe shape=(8, 6)
+2025-03-25 16:47:54.633 | INFO     | __main__:remove_outliers:147 - Removed 0 outlier rows
+2025-03-25 16:47:54.633 | INFO     | __main__:remove_outliers:148 - 8 records remaining after removing outliers.
+2025-03-25 16:47:54.634 | INFO     | __main__:validate_data:184 - FUNCTION START: validate_data with dataframe shape=(8, 6)
+2025-03-25 16:47:54.636 | INFO     | __main__:validate_data:193 - Data validation complete
+2025-03-25 16:47:54.636 | INFO     | __main__:save_prepared_data:54 - FUNCTION START: save_prepared_data with file_name=products_data_prepared.csv, dataframe shape=(8, 6)
+2025-03-25 16:47:54.656 | INFO     | __main__:save_prepared_data:57 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/products_data_prepared.csv
+2025-03-25 16:47:54.656 | INFO     | __main__:main:237 - ==================================
+2025-03-25 16:47:54.656 | INFO     | __main__:main:238 - FINISHED prepare_products_data.py
+2025-03-25 16:47:54.657 | INFO     | __main__:main:239 - ==================================
+2025-03-25 16:49:07.087 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-25 16:49:07.089 | INFO     | __main__:main:128 - ==================================
+2025-03-25 16:49:07.089 | INFO     | __main__:main:129 - STARTING prepare_customers_data.py
+2025-03-25 16:49:07.090 | INFO     | __main__:main:130 - ==================================
+2025-03-25 16:49:07.090 | INFO     | __main__:main:132 - Root project folder: /Users/alijah/Projects/smart-store-aaroe
+2025-03-25 16:49:07.090 | INFO     | __main__:main:133 - data / raw folder: /Users/alijah/Projects/smart-store-aaroe/data/raw
+2025-03-25 16:49:07.091 | INFO     | __main__:main:134 - data / prepared folder: /Users/alijah/Projects/smart-store-aaroe/data/prepared
+2025-03-25 16:49:07.093 | INFO     | __main__:main:135 - scripts folder: /Users/alijah/Projects/smart-store-aaroe/scripts
+2025-03-25 16:49:07.093 | INFO     | __main__:read_raw_data:32 - FUNCTION START: read_raw_data with file_name=customers_data.csv
+2025-03-25 16:49:07.094 | INFO     | __main__:read_raw_data:34 - Reading data from /Users/alijah/Projects/smart-store-aaroe/data/raw/customers_data.csv
+2025-03-25 16:49:07.130 | INFO     | __main__:read_raw_data:36 - Loaded dataframe with 14 rows and 6 columns
+2025-03-25 16:49:07.130 | INFO     | __main__:main:144 - Initial dataframe columns: CustomerID, Name, Region, JoinDate, LoyaltyPoints, PreferredContactMethod
+2025-03-25 16:49:07.131 | INFO     | __main__:main:145 - Initial dataframe shape: (14, 6)
+2025-03-25 16:49:07.136 | INFO     | __main__:remove_duplicates:64 - FUNCTION START: remove_duplicates with dataframe shape=(14, 6)
+2025-03-25 16:49:07.166 | INFO     | __main__:remove_duplicates:68 - Removed 3 duplicate rows
+2025-03-25 16:49:07.166 | INFO     | __main__:remove_duplicates:69 - 11 records remaining after removing duplicates.
+2025-03-25 16:49:07.167 | INFO     | __main__:handle_missing_values:83 - FUNCTION START: handle_missing_values with dataframe shape=(11, 6)
+2025-03-25 16:49:07.169 | INFO     | __main__:handle_missing_values:87 - Total missing values before handling: 0
+2025-03-25 16:49:07.170 | INFO     | __main__:handle_missing_values:96 - Total missing values after handling: 0
+2025-03-25 16:49:07.170 | INFO     | __main__:handle_missing_values:97 - 11 records remaining after handling missing values.
+2025-03-25 16:49:07.170 | INFO     | __main__:remove_outliers:111 - FUNCTION START: remove_outliers with dataframe shape=(11, 6)
+2025-03-25 16:49:07.171 | INFO     | __main__:remove_outliers:119 - Removed 0 outlier rows
+2025-03-25 16:49:07.171 | INFO     | __main__:remove_outliers:120 - 11 records remaining after removing outliers.
+2025-03-25 16:49:07.171 | INFO     | __main__:save_prepared_data:47 - FUNCTION START: save_prepared_data with file_name=customers_data_prepared.csv, dataframe shape=(11, 6)
+2025-03-25 16:49:07.181 | INFO     | __main__:save_prepared_data:50 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/customers_data_prepared.csv
+2025-03-25 16:49:07.181 | INFO     | __main__:main:168 - ==================================
+2025-03-25 16:49:07.181 | INFO     | __main__:main:169 - FINISHED prepare_customers_data.py
+2025-03-25 16:49:07.182 | INFO     | __main__:main:170 - ==================================
+2025-03-25 17:11:58.691 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-25 17:11:58.692 | INFO     | __main__:main:200 - ==================================
+2025-03-25 17:11:58.693 | INFO     | __main__:main:201 - STARTING prepare_sales_data.py
+2025-03-25 17:11:58.693 | INFO     | __main__:main:202 - ==================================
+2025-03-25 17:11:58.693 | INFO     | __main__:main:204 - Root project folder: /Users/alijah/Projects/smart-store-aaroe
+2025-03-25 17:11:58.694 | INFO     | __main__:main:205 - data / raw folder: /Users/alijah/Projects/smart-store-aaroe/data/raw
+2025-03-25 17:11:58.696 | INFO     | __main__:main:206 - data / prepared folder: /Users/alijah/Projects/smart-store-aaroe/data/prepared
+2025-03-25 17:11:58.698 | INFO     | __main__:read_raw_data:32 - FUNCTION START: read_raw_data with file_name=sales_data.csv
+2025-03-25 17:11:58.698 | INFO     | __main__:read_raw_data:34 - Reading data from /Users/alijah/Projects/smart-store-aaroe/data/raw/sales_data.csv
+2025-03-25 17:11:58.733 | INFO     | __main__:read_raw_data:36 - Loaded dataframe with 99 rows and 9 columns
+2025-03-25 17:11:58.733 | INFO     | __main__:main:215 - Initial dataframe columns: TransactionID, SaleDate, CustomerID, ProductID, StoreID, CampaignID, SaleAmount, DiscountPercent, PaymentType
+2025-03-25 17:11:58.733 | INFO     | __main__:main:216 - Initial dataframe shape: (99, 9)
+2025-03-25 17:11:58.740 | INFO     | __main__:main:225 - Cleaned column names: TransactionID -> transactionid, SaleDate -> saledate, CustomerID -> customerid, ProductID -> productid, StoreID -> storeid, CampaignID -> campaignid, SaleAmount -> saleamount, DiscountPercent -> discountpercent, PaymentType -> paymenttype
+2025-03-25 17:11:58.741 | INFO     | __main__:remove_duplicates:69 - FUNCTION START: remove_duplicates with dataframe shape=(99, 9)
+2025-03-25 17:11:58.772 | INFO     | __main__:remove_duplicates:79 - Removed 4 duplicate rows
+2025-03-25 17:11:58.772 | INFO     | __main__:remove_duplicates:80 - 95 records remaining after removing duplicates.
+2025-03-25 17:11:58.773 | INFO     | __main__:handle_missing_values:94 - FUNCTION START: handle_missing_values with dataframe shape=(95, 9)
+2025-03-25 17:11:58.780 | INFO     | __main__:handle_missing_values:99 - Missing values by column before handling:
+transactionid      0
+saledate           0
+customerid         0
+productid          0
+storeid            0
+campaignid         0
+saleamount         0
+discountpercent    0
+paymenttype        1
+dtype: int64
+2025-03-25 17:11:58.781 | INFO     | __main__:handle_missing_values:113 - Missing values by column after handling:
+transactionid      0
+saledate           0
+customerid         0
+productid          0
+storeid            0
+campaignid         0
+saleamount         0
+discountpercent    0
+paymenttype        1
+dtype: int64
+2025-03-25 17:11:58.782 | INFO     | __main__:handle_missing_values:114 - 95 records remaining after handling missing values.
+2025-03-25 17:11:58.782 | INFO     | __main__:standardize_formats:161 - FUNCTION START: standardize_formats with dataframe shape=(95, 9)
+2025-03-25 17:11:58.782 | INFO     | __main__:standardize_formats:171 - Completed standardizing formats
+2025-03-25 17:11:58.782 | INFO     | __main__:remove_outliers:128 - FUNCTION START: remove_outliers with dataframe shape=(95, 9)
+2025-03-25 17:11:58.782 | INFO     | __main__:remove_outliers:147 - Removed 0 outlier rows
+2025-03-25 17:11:58.782 | INFO     | __main__:remove_outliers:148 - 95 records remaining after removing outliers.
+2025-03-25 17:11:58.782 | INFO     | __main__:validate_data:184 - FUNCTION START: validate_data with dataframe shape=(95, 9)
+2025-03-25 17:11:58.782 | INFO     | __main__:validate_data:193 - Data validation complete
+2025-03-25 17:11:58.782 | INFO     | __main__:save_prepared_data:54 - FUNCTION START: save_prepared_data with file_name=sales_data_prepared.csv, dataframe shape=(95, 9)
+2025-03-25 17:11:58.796 | INFO     | __main__:save_prepared_data:57 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/sales_data_prepared.csv
+2025-03-25 17:11:58.796 | INFO     | __main__:main:237 - ==================================
+2025-03-25 17:11:58.797 | INFO     | __main__:main:238 - FINISHED prepare_sales_data.py
+2025-03-25 17:11:58.798 | INFO     | __main__:main:239 - ==================================
