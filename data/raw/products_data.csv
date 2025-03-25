@@ -1,10 +1,13 @@
 ProductID,ProductName,Category,UnitPrice,StockQuantity,SubCategory
 101,laptop,Electronics,793.12,50,Computers
 102,hoodie,Clothing,39.1,100,Apparel    
-103,cable,Electronics,22.76,,Accessories
+103,cable,Electronics,22.76,800000000000,Accessories
 104,hat,Clothing,43.1,150,Apparel
 105,football,Sports,19.78,75,Outdoor
 106,controller,Electronics,88.98,120,Accessories
 107,jacket,Clothing,67.02,80,Apparel
-108,protector,Electronics,12.56,300d,Accessories
+108,protector,Electronics,12.56,300,Accessories
+104,hat,Clothing,43.1,150,Apparel
+104,hat,Clothing,43.1,150,Apparel
+107,hat,Clothing,67.02,80,Apparel
 
