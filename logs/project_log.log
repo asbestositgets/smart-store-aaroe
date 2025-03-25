@@ -4,3 +4,65 @@
 2025-03-21 19:22:02.866 | INFO     | __main__:read_raw_data:26 - Reading raw data from /Users/alijah/Projects/smart-store-aaroe/data/raw/products_data.csv.
 2025-03-21 19:22:02.870 | INFO     | __main__:read_raw_data:26 - Reading raw data from /Users/alijah/Projects/smart-store-aaroe/data/raw/sales_data.csv.
 2025-03-21 19:22:02.879 | INFO     | __main__:main:45 - Data preparation complete.
+2025-03-24 17:51:39.454 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 17:51:39.455 | INFO     | __main__:main:41 - Starting data preparation...
+2025-03-24 17:51:39.456 | INFO     | __main__:read_raw_data:26 - Reading raw data from /Users/alijah/Projects/smart-store-aaroe/data/raw/customers_data.csv.
+2025-03-24 17:51:39.518 | INFO     | __main__:read_raw_data:26 - Reading raw data from /Users/alijah/Projects/smart-store-aaroe/data/raw/products_data.csv.
+2025-03-24 17:51:39.524 | INFO     | __main__:read_raw_data:26 - Reading raw data from /Users/alijah/Projects/smart-store-aaroe/data/raw/sales_data.csv.
+2025-03-24 17:51:39.529 | INFO     | __main__:main:45 - Data preparation complete.
+2025-03-24 18:12:40.434 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 18:16:13.047 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 18:34:15.592 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 19:22:50.018 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 19:22:50.022 | INFO     | __main__:main:41 - Starting data preparation...
+2025-03-24 19:22:50.027 | INFO     | __main__:read_raw_data:26 - Reading raw data from /Users/alijah/Projects/smart-store-aaroe/data/raw/customers_data.csv.
+2025-03-24 19:22:50.088 | INFO     | __main__:read_raw_data:26 - Reading raw data from /Users/alijah/Projects/smart-store-aaroe/data/raw/products_data.csv.
+2025-03-24 19:22:50.093 | INFO     | __main__:read_raw_data:26 - Reading raw data from /Users/alijah/Projects/smart-store-aaroe/data/raw/sales_data.csv.
+2025-03-24 19:22:50.097 | INFO     | __main__:main:45 - Data preparation complete.
+2025-03-24 19:25:35.501 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 19:36:14.173 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 19:41:11.487 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 19:41:11.507 | INFO     | __main__:main:59 - ======================
+2025-03-24 19:41:11.508 | INFO     | __main__:main:60 - STARTING data_prep.py
+2025-03-24 19:41:11.508 | INFO     | __main__:main:61 - ======================
+2025-03-24 19:41:11.508 | INFO     | __main__:main:63 - ========================
+2025-03-24 19:41:11.509 | INFO     | __main__:main:64 - Starting CUSTOMERS prep
+2025-03-24 19:41:11.511 | INFO     | __main__:main:65 - ========================
+2025-03-24 19:43:16.799 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 19:43:16.808 | INFO     | __main__:main:59 - ======================
+2025-03-24 19:43:16.808 | INFO     | __main__:main:60 - STARTING data_prep.py
+2025-03-24 19:43:16.809 | INFO     | __main__:main:61 - ======================
+2025-03-24 19:43:16.809 | INFO     | __main__:main:63 - ========================
+2025-03-24 19:43:16.810 | INFO     | __main__:main:64 - Starting CUSTOMERS prep
+2025-03-24 19:43:16.810 | INFO     | __main__:main:65 - ========================
+2025-03-24 19:43:16.931 | INFO     | __main__:save_prepared_data:55 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/customers_data_prepared.csv
+2025-03-24 19:43:16.931 | INFO     | __main__:main:85 - ========================
+2025-03-24 19:43:16.932 | INFO     | __main__:main:86 - Starting PRODUCTS prep
+2025-03-24 19:43:16.932 | INFO     | __main__:main:87 - ========================
+2025-03-24 19:43:16.983 | INFO     | __main__:save_prepared_data:55 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/products_data_prepared.csv
+2025-03-24 19:43:16.983 | INFO     | __main__:main:103 - ========================
+2025-03-24 19:43:16.983 | INFO     | __main__:main:104 - Starting SALES prep
+2025-03-24 19:43:16.983 | INFO     | __main__:main:105 - ========================
+2025-03-24 19:43:17.053 | INFO     | __main__:save_prepared_data:55 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/sales_data_prepared.csv
+2025-03-24 19:43:17.053 | INFO     | __main__:main:124 - ======================
+2025-03-24 19:43:17.053 | INFO     | __main__:main:125 - FINISHED data_prep.py
+2025-03-24 19:43:17.054 | INFO     | __main__:main:126 - ======================
+2025-03-24 20:05:37.069 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-03-24 20:05:37.077 | INFO     | __main__:main:59 - ======================
+2025-03-24 20:05:37.077 | INFO     | __main__:main:60 - STARTING data_prep.py
+2025-03-24 20:05:37.078 | INFO     | __main__:main:61 - ======================
+2025-03-24 20:05:37.078 | INFO     | __main__:main:63 - ========================
+2025-03-24 20:05:37.078 | INFO     | __main__:main:64 - Starting CUSTOMERS prep
+2025-03-24 20:05:37.078 | INFO     | __main__:main:65 - ========================
+2025-03-24 20:05:37.213 | INFO     | __main__:save_prepared_data:55 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/customers_data_prepared.csv
+2025-03-24 20:05:37.213 | INFO     | __main__:main:85 - ========================
+2025-03-24 20:05:37.213 | INFO     | __main__:main:86 - Starting PRODUCTS prep
+2025-03-24 20:05:37.213 | INFO     | __main__:main:87 - ========================
+2025-03-24 20:05:37.249 | INFO     | __main__:save_prepared_data:55 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/products_data_prepared.csv
+2025-03-24 20:05:37.249 | INFO     | __main__:main:103 - ========================
+2025-03-24 20:05:37.249 | INFO     | __main__:main:104 - Starting SALES prep
+2025-03-24 20:05:37.249 | INFO     | __main__:main:105 - ========================
+2025-03-24 20:05:37.301 | INFO     | __main__:save_prepared_data:55 - Data saved to /Users/alijah/Projects/smart-store-aaroe/data/prepared/sales_data_prepared.csv
+2025-03-24 20:05:37.302 | INFO     | __main__:main:124 - ======================
+2025-03-24 20:05:37.302 | INFO     | __main__:main:125 - FINISHED data_prep.py
+2025-03-24 20:05:37.302 | INFO     | __main__:main:126 - ======================
