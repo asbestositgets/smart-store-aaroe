@@ -34,3 +34,14 @@ To get started with your project, follow these steps:
 
 ```bash
 cd /Users/alijah/Projects/smart-store-aaroe
+
+# Data Scrubber
+
+This project includes a Python script for data scrubbing and testing.
+
+## Running the Tests
+
+To run the tests for data scrubbing, use the following command:
+
+```bash
+python3 tests/test_data_scrubber.py
