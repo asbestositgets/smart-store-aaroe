@@ -1,6 +1,4 @@
-import io
 import pandas as pd
-from typing import Dict, Tuple, Union, List
 
 class DataScrubber:
     def __init__(self, df: pd.DataFrame):
@@ -12,7 +10,7 @@ class DataScrubber:
         """
         self.df = df
 
-    def check_data_consistency_before_cleaning(self) -> Dict[str, Union[pd.Series, int]]:
+    def check_data_consistency_before_cleaning(self) -> dict:
         """
         Check data consistency before cleaning by calculating counts of null and duplicate entries.
         
@@ -23,7 +21,7 @@ class DataScrubber:
         duplicate_count = self.df.duplicated().sum()
         return {'null_counts': null_counts, 'duplicate_count': duplicate_count}
 
-    def check_data_consistency_after_cleaning(self) -> Dict[str, Union[pd.Series, int]]:
+    def check_data_consistency_after_cleaning(self) -> dict:
         """
         Check data consistency after cleaning to ensure there are no null or duplicate entries.
         
@@ -36,204 +34,75 @@ class DataScrubber:
         assert duplicate_count == 0, "Data still contains duplicate records after cleaning."
         return {'null_counts': null_counts, 'duplicate_count': duplicate_count}
 
-    def convert_column_to_new_data_type(self, column: str, new_type: type) -> pd.DataFrame:
+    def filter_column_outliers(self) -> pd.DataFrame:
         """
-        Convert a specified column to a new data type.
-        
-        Parameters:
-            column (str): Name of the column to convert.
-            new_type (type): The target data type (e.g., 'int', 'float', 'str').
+        Filter outliers in numeric columns using the IQR method.
         
         Returns:
-            pd.DataFrame: Updated DataFrame with the column type converted.
-
-        Raises:
-            ValueError: If the specified column not found in the DataFrame.
+            pd.DataFrame: Updated DataFrame with outliers removed from numeric columns.
         """
-        try:
-            self.df[column] = self.df[column].astype(new_type)
-            return self.df
-        except KeyError:
-            raise ValueError(f"Column name '{column}' not found in the DataFrame.")
-
-    def drop_columns(self, columns: List[str]) -> pd.DataFrame:
-        """
-        Drop specified columns from the DataFrame.
-        
-        Parameters:
-            columns (list): List of column names to drop.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with specified columns removed.
-
-        Raises:
-            ValueError: If a specified column is not found in the DataFrame.
-        """
-        for column in columns:
-            if column not in self.df.columns:
-                raise ValueError(f"Column name '{column}' not found in the DataFrame.")
-        self.df = self.df.drop(columns=columns)
+        for column in self.df.select_dtypes(include=['float64', 'int64']).columns:
+            Q1 = self.df[column].quantile(0.25)
+            Q3 = self.df[column].quantile(0.75)
+            IQR = Q3 - Q1
+            self.df = self.df[(self.df[column] >= (Q1 - 1.5 * IQR)) & (self.df[column] <= (Q3 + 1.5 * IQR))]
         return self.df
 
-    def filter_column_outliers(self, column: str, lower_bound: Union[float, int], upper_bound: Union[float, int]) -> pd.DataFrame:
+    def save_cleaned_data(self, output_file: str):
         """
-        Filter outliers in a specified column based on lower and upper bounds.
+        Save the cleaned DataFrame to a new CSV file.
         
         Parameters:
-            column (str): Name of the column to filter for outliers.
-            lower_bound (float or int): Lower threshold for outlier filtering.
-            upper_bound (float or int): Upper threshold for outlier filtering.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with outliers filtered out.
- 
-        Raises:
-            ValueError: If the specified column not found in the DataFrame.
+            output_file (str): The path where the cleaned DataFrame should be saved.
         """
-        try:
-            self.df = self.df[(self.df[column] >= lower_bound) & (self.df[column] <= upper_bound)]
-            return self.df
-        except KeyError:
-            raise ValueError(f"Column name '{column}' not found in the DataFrame.")
+        self.df.to_csv(output_file, index=False)
 
-    def format_column_strings_to_lower_and_trim(self, column: str) -> pd.DataFrame:
-        """
-        Format strings in a specified column by converting to lowercase and trimming whitespace.
-        
-        Parameters:
-            column (str): Name of the column to format.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with formatted string column.
 
-        Raises:
-            ValueError: If the specified column not found in the DataFrame.
-        """
-        try:
-            self.df[column] = self.df[column].str.lower().str.strip()
-            return self.df
-        except KeyError:
-            raise ValueError(f"Column name '{column}' not found in the DataFrame.")
-        
-    def format_column_strings_to_upper_and_trim(self, column: str) -> pd.DataFrame:
-        """
-        Format strings in a specified column by converting to uppercase and trimming whitespace.
-        
-        Parameters:
-            column (str): Name of the column to format.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with formatted string column.
+def clean_data(input_file: str, output_file: str):
+    """
+    Function to read data from the input file, clean the data, and save the cleaned data to the output file.
+    
+    Parameters:
+        input_file (str): Path to the input CSV file.
+        output_file (str): Path where the cleaned data will be saved.
+    """
+    # Read the input file
+    df = pd.read_csv(input_file)
 
-        Raises:
-            ValueError: If the specified column not found in the DataFrame.
-        """
-        try:
-            # Apply str.upper() and str.strip() on the given column
-            self.df[column] = self.df[column].str.upper().str.strip()
-            return self.df
-        except KeyError:
-            raise ValueError(f"Column name '{column}' not found in the DataFrame.")
+    # Initialize the DataScrubber with the DataFrame
+    scrubber = DataScrubber(df)
 
-    def handle_missing_data(self, drop: bool = False, fill_value: Union[None, float, int, str] = None) -> pd.DataFrame:
-        """
-        Handle missing data in the DataFrame.
-        
-        Parameters:
-            drop (bool, optional): If True, drop rows with missing values. Default is False.
-            fill_value (any, optional): Value to fill in for missing entries if drop is False.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with missing data handled.
-        """
-        if drop:
-            self.df = self.df.dropna()
-        elif fill_value is not None:
-            self.df = self.df.fillna(fill_value)
-        return self.df
+    # Check consistency before cleaning
+    print(f"Data consistency before cleaning for {input_file}:")
+    print(scrubber.check_data_consistency_before_cleaning())
 
-    def inspect_data(self) -> Tuple[str, str]:
-        """
-        Inspect the data by providing DataFrame information and summary statistics.
-        
-        Returns:
-            tuple: (info_str, describe_str), where `info_str` is a string representation of DataFrame.info()
-                   and `describe_str` is a string representation of DataFrame.describe().
-        """
-        buffer = io.StringIO()
-        self.df.info(buf=buffer)
-        info_str = buffer.getvalue()  # Retrieve the string content of the buffer
+    # Filter outliers
+    cleaned_df = scrubber.filter_column_outliers()
 
-        # Capture the describe output as a string
-        describe_str = self.df.describe().to_string()  # Convert DataFrame.describe() output to a string
-        return info_str, describe_str
+    # Check consistency after cleaning
+    print(f"Data consistency after cleaning for {input_file}:")
+    print(scrubber.check_data_consistency_after_cleaning())
 
-    def parse_dates_to_add_standard_datetime(self, column: str) -> pd.DataFrame:
-        """
-        Parse a specified column as datetime format and add it as a new column named 'StandardDateTime'.
-        
-        Parameters:
-            column (str): Name of the column to parse as datetime.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with a new 'StandardDateTime' column containing parsed datetime values.
+    # Save the cleaned data
+    scrubber.save_cleaned_data(output_file)
+    print(f"Cleaned data saved to {output_file}")
 
-        Raises:
-            ValueError: If the specified column not found in the DataFrame.
-        """
-        try:
-            self.df['StandardDateTime'] = pd.to_datetime(self.df[column])
-            return self.df
-        except KeyError:
-            raise ValueError(f"Column name '{column}' not found in the DataFrame.")
 
-    def remove_duplicate_records(self) -> pd.DataFrame:
-        """
-        Remove duplicate rows from the DataFrame.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with duplicates removed.
+# Define the file paths for each data file
+input_file_customers = "data/prepared/customers_data_prepared.csv"
+output_file_customers = "data/prepared/customers_data_cleaned.csv"
 
-        """
-        self.df = self.df.drop_duplicates()
-        return self.df
+input_file_products = "data/prepared/products_data_prepared.csv"
+output_file_products = "data/prepared/products_data_cleaned.csv"
 
-    def rename_columns(self, column_mapping: Dict[str, str]) -> pd.DataFrame:
-        """
-        Rename columns in the DataFrame based on a provided mapping.
-        
-        Parameters:
-            column_mapping (dict): Dictionary where keys are old column names and values are new names.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with renamed columns.
+input_file_sales = "data/prepared/sales_data_prepared.csv"
+output_file_sales = "data/prepared/sales_data_cleaned.csv"
 
-        Raises:
-            ValueError: If a specified column is not found in the DataFrame.
-        """
+# Clean the data for customers
+clean_data(input_file_customers, output_file_customers)
 
-        for old_name, new_name in column_mapping.items():
-            if old_name not in self.df.columns:
-                raise ValueError(f"Column '{old_name}' not found in the DataFrame.")
+# Clean the data for products
+clean_data(input_file_products, output_file_products)
 
-        self.df = self.df.rename(columns=column_mapping)
-        return self.df
-
-    def reorder_columns(self, columns: List[str]) -> pd.DataFrame:
-        """
-        Reorder columns in the DataFrame based on the specified order.
-        
-        Parameters:
-            columns (list): List of column names in the desired order.
-        
-        Returns:
-            pd.DataFrame: Updated DataFrame with reordered columns.
-
-        Raises:
-            ValueError: If a specified column is not found in the DataFrame.
-        """
-        for column in columns:
-            if column not in self.df.columns:
-                raise ValueError(f"Column name '{column}' not found in the DataFrame.")
-        self.df = self.df[columns]
-        return self.df
+# Clean the data for sales
+clean_data(input_file_sales, output_file_sales)
