@@ -1,19 +1,3 @@
-r"""
-scripts/data_scrubber.py
-
-Do not run this script directly. 
-Instead, from this module (scripts.data_scrubber)
-import the DataScrubber class. 
-
-Use it to create a DataScrubber object by passing in a DataFrame with your data. 
-
-Then, call the methods, providing arguments as needed to enjoy common, 
-re-usable cleaning and preparation methods. 
-
-See the associated test script in the tests folder. 
-
-"""
-
 import io
 import pandas as pd
 from typing import Dict, Tuple, Union, List
@@ -145,9 +129,8 @@ class DataScrubber:
             ValueError: If the specified column not found in the DataFrame.
         """
         try:
-            # TODO: Fix the following logic to call str.upper() and str.strip() on the given column 
-            # HINT: See previous function for an example
-            self.df[column] = self.df[column]
+            # Apply str.upper() and str.strip() on the given column
+            self.df[column] = self.df[column].str.upper().str.strip()
             return self.df
         except KeyError:
             raise ValueError(f"Column name '{column}' not found in the DataFrame.")
