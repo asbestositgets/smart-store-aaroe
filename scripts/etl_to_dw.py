@@ -1,165 +1,123 @@
 import pandas as pd
 import sqlite3
+import pathlib
+import sys
+import os
 
-# Path to your cleaned CSV files
-customers_file_path = '/Users/alijah/Projects/smart-store-aaroe/data/prepared/customers_data_cleaned.csv'
-products_file_path = '/Users/alijah/Projects/smart-store-aaroe/data/prepared/products_data_cleaned.csv'
-sales_file_path = '/Users/alijah/Projects/smart-store-aaroe/data/prepared/sales_data_cleaned.csv'
+# For local imports, temporarily add project root to sys.path
+PROJECT_ROOT = pathlib.Path(__file__).resolve().parent.parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
-# Read the cleaned CSV files
-print(f"Reading customers file: {customers_file_path}")
-customers_df = pd.read_csv(customers_file_path)
+# Constants
+DW_DIR = pathlib.Path("/Users/alijah/Projects/smart-store-aaroe/data/dw")  # Updated to writable path
+DB_PATH = DW_DIR.joinpath("smart_sales.db")
+PREPARED_DATA_DIR = pathlib.Path("/Users/alijah/Projects/smart-store-aaroe/data/prepared")  # Updated CSV path
 
-print(f"Reading products file: {products_file_path}")
-products_df = pd.read_csv(products_file_path)
+# Create directory for the data warehouse if it doesn't exist
+os.makedirs(DW_DIR, exist_ok=True)
 
-print(f"Reading sales file: {sales_file_path}")
-sales_df = pd.read_csv(sales_file_path)
+def create_schema(cursor: sqlite3.Cursor) -> None:
+    """Create tables in the data warehouse if they don't exist."""
+    print("Dropping existing tables if they exist...")
+    cursor.execute("DROP TABLE IF EXISTS customer")
+    cursor.execute("DROP TABLE IF EXISTS product")
+    cursor.execute("DROP TABLE IF EXISTS sale")
+    print("Existing tables dropped.")
+    
+    print("Creating new tables...")
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS customer (
+            CustomerID INTEGER PRIMARY KEY,
+            Name TEXT,
+            Region TEXT,
+            Join_date TEXT,
+            LoyaltyPoints INTEGER,
+            PreferredContactMethod TEXT
+        )
+    """)
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS product (
+            productid INTEGER PRIMARY KEY,
+            productname TEXT,
+            category TEXT,
+            unitprice REAL,
+            stockquantity INTEGER,
+            subcategory TEXT
+        )
+    """)
+    
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS sale (
+            transactionid INTEGER PRIMARY KEY,
+            saledate TEXT,
+            customerid INTEGER,
+            productid INTEGER,
+            storeid INTEGER,
+            campaignid INTEGER,
+            saleamount REAL,
+            discountpercent REAL,
+            paymenttype TEXT,
+            FOREIGN KEY (customerid) REFERENCES customer (CustomerID),
+            FOREIGN KEY (productid) REFERENCES product (productid)
+        )
+    """)
+    print("Tables created.")
 
-print("CSV files loaded successfully.")
+def delete_existing_records(cursor: sqlite3.Cursor) -> None:
+    """Delete all existing records from the customer, product, and sale tables."""
+    print("Deleting existing records...")
+    cursor.execute("DELETE FROM customer")
+    cursor.execute("DELETE FROM product")  # Ensure products are deleted
+    cursor.execute("DELETE FROM sale")
+    print("Existing records deleted.")
 
-# Connecting to the database
-db_path = '/Users/alijah/Projects/smart-store-aaroe/data/dw/smart_sales.db'
-print("Connecting to database...")
-conn = sqlite3.connect(db_path)
-cursor = conn.cursor()
+def insert_customers(customers_df: pd.DataFrame, cursor: sqlite3.Cursor) -> None:
+    """Insert customer data into the customer table."""
+    customers_df = customers_df.rename(columns={"JoinDate": "Join_date"})  # Ensure column names match schema
+    customers_df.to_sql("customer", cursor.connection, if_exists="append", index=False)
+    print(f"Inserted {len(customers_df)} customer records.")
 
-# Create the schema for the database
-print("Creating schema...")
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS customer (
-    customer_id INTEGER PRIMARY KEY,
-    name TEXT
-);
-''')
+def insert_products(products_df: pd.DataFrame, cursor: sqlite3.Cursor) -> None:
+    """Insert product data into the product table."""
+    products_df = products_df.drop_duplicates(subset=['productid'])  # Remove duplicates based on productid
+    products_df.to_sql("product", cursor.connection, if_exists="replace", index=False)  # Replace existing products
+    print(f"Inserted {len(products_df)} product records.")
 
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS product (
-    product_id INTEGER PRIMARY KEY,
-    product_name TEXT,
-    category TEXT,
-    unit_price REAL,
-    stock_quantity INTEGER,
-    subcategory TEXT
-);
-''')
+def insert_sales(sales_df: pd.DataFrame, cursor: sqlite3.Cursor) -> None:
+    """Insert sales data into the sales table."""
+    sales_df.to_sql("sale", cursor.connection, if_exists="append", index=False)
+    print(f"Inserted {len(sales_df)} sales records.")
 
-# Check if 'storeid' column exists in the sale table, and add it if it doesn't
-cursor.execute("PRAGMA table_info(sale);")
-columns = [column[1] for column in cursor.fetchall()]
+def load_data_to_db() -> None:
+    try:
+        print(f"Connecting to database at {DB_PATH}")
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
 
-if 'storeid' not in columns:
-    cursor.execute("ALTER TABLE sale ADD COLUMN storeid INTEGER;")
-    print("Added column 'storeid' to the sale table.")
-else:
-    print("Column 'storeid' already exists in the sale table.")
+        # Create schema and clear existing records
+        create_schema(cursor)
+        delete_existing_records(cursor)
 
-# Check if 'campaignid' column exists in the sale table, and add it if it doesn't
-if 'campaignid' not in columns:
-    cursor.execute("ALTER TABLE sale ADD COLUMN campaignid INTEGER;")
-    print("Added column 'campaignid' to the sale table.")
-else:
-    print("Column 'campaignid' already exists in the sale table.")
+        # Load prepared data using pandas
+        customers_df = pd.read_csv(PREPARED_DATA_DIR.joinpath("customers_data_cleaned.csv"))
+        products_df = pd.read_csv(PREPARED_DATA_DIR.joinpath("products_data_cleaned.csv"))
+        sales_df = pd.read_csv(PREPARED_DATA_DIR.joinpath("sales_data_cleaned.csv"))
 
-# Check if 'saleamount' column exists in the sale table, and add it if it doesn't
-if 'saleamount' not in columns:
-    cursor.execute("ALTER TABLE sale ADD COLUMN saleamount REAL;")
-    print("Added column 'saleamount' to the sale table.")
-else:
-    print("Column 'saleamount' already exists in the sale table.")
+        # Insert data into the database
+        insert_customers(customers_df, cursor)
+        insert_products(products_df, cursor)
+        insert_sales(sales_df, cursor)
 
-# Check if 'discountpercent' column exists in the sale table, and add it if it doesn't
-if 'discountpercent' not in columns:
-    cursor.execute("ALTER TABLE sale ADD COLUMN discountpercent REAL;")
-    print("Added column 'discountpercent' to the sale table.")
-else:
-    print("Column 'discountpercent' already exists in the sale table.")
+        conn.commit()
+        print("Data successfully committed to the database.")
+    except Exception as e:
+        print(f"Error occurred: {e}")
+    finally:
+        if conn:
+            conn.close()
+            print("Connection closed.")
 
-# Check if 'paymenttype' column exists in the sale table, and add it if it doesn't
-if 'paymenttype' not in columns:
-    cursor.execute("ALTER TABLE sale ADD COLUMN paymenttype TEXT;")
-    print("Added column 'paymenttype' to the sale table.")
-else:
-    print("Column 'paymenttype' already exists in the sale table.")
-
-# Deleting existing records (optional based on requirement)
-print("Deleting existing records...")
-cursor.execute("DELETE FROM customer;")
-cursor.execute("DELETE FROM product;")
-cursor.execute("DELETE FROM sale;")
-print("Existing records deleted.")
-
-# Insert customer data
-print("Inserting customer data...")
-customers_df.columns = [col.lower() for col in customers_df.columns]  # Standardize column names
-customers_df = customers_df[['name']]  # Selecting only the 'name' column from the customer data
-customers_df.to_sql('customer', conn, if_exists='append', index=False)
-
-print("Customer data inserted.")
-
-# Insert product data
-print("Inserting product data...")
-products_df.columns = [col.lower() for col in products_df.columns]  # Standardize column names
-
-# Check and rename columns if needed
-required_columns = {
-    'productid': 'product_id',
-    'productname': 'product_name',
-    'unitprice': 'unit_price',
-    'stockquantity': 'stock_quantity'
-}
-
-for old_col, new_col in required_columns.items():
-    if old_col in products_df.columns:
-        products_df = products_df.rename(columns={old_col: new_col})
-
-# Remove duplicates based on 'product_id' to avoid conflict
-products_df = products_df.drop_duplicates(subset=['product_id'])
-
-# Insert the product data
-products_df.to_sql('product', conn, if_exists='append', index=False)
-print("Product data inserted.")
-
-# Insert sales data
-print("Inserting sales data...")
-
-# Standardize the column names for the sales table
-sales_df.columns = [col.lower() for col in sales_df.columns]  # Standardize column names
-
-# Check the column names after renaming
-print("Sales DataFrame columns after renaming:")
-print(sales_df.columns)
-
-# Rename the columns to match the schema in the database
-sales_columns_map = {
-    'transactionid': 'transaction_id',
-    'saledate': 'transaction_date',  # Rename 'saledate' to match the schema
-    'productid': 'product_id',
-    'customerid': 'customer_id',
-    'quantitysold': 'quantity',
-    'totalamount': 'total_amount'
-}
-
-for old_col, new_col in sales_columns_map.items():
-    if old_col in sales_df.columns:
-        sales_df = sales_df.rename(columns={old_col: new_col})
-
-# Check the final column names after renaming
-print("Sales DataFrame columns after renaming to match schema:")
-print(sales_df.columns)
-
-# Remove duplicates based on 'transaction_id' to avoid conflict
-sales_df = sales_df.drop_duplicates(subset=['transaction_id'])
-
-# Insert the sales data
-try:
-    sales_df.to_sql('sale', conn, if_exists='append', index=False)
-    print("Sales data inserted.")
-except sqlite3.IntegrityError as e:
-    print(f"Error inserting sales data: {e}")
-
-# Commit the changes and close the connection
-conn.commit()
-conn.close()
-
-print("ETL process completed successfully.")
+if __name__ == "__main__":
+    load_data_to_db()
