@@ -432,3 +432,7 @@ dtype: int64
 2025-03-25 17:52:14.704 | INFO     | __main__:main:237 - ==================================
 2025-03-25 17:52:14.704 | INFO     | __main__:main:238 - FINISHED prepare_products_data.py
 2025-03-25 17:52:14.704 | INFO     | __main__:main:239 - ==================================
+2025-04-05 07:53:56.300 | INFO     | utils.logger:<module>:39 - Logging to file: logs/project_log.log
+2025-04-05 07:53:56.303 | INFO     | __main__:main:43 - Starting data warehouse creation...
+2025-04-05 07:53:56.337 | INFO     | __main__:create_dw:31 - Data warehouse created successfully.
+2025-04-05 07:53:56.337 | INFO     | __main__:main:45 - Data warehouse creation complete.
