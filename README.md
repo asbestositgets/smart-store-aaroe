@@ -224,3 +224,68 @@ If any of the CSV files are missing or improperly named, the script will fail wi
 
 License
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+# Smart Store Sales Analysis
+
+## Overview
+This project analyzes customer sales data from a smart store using Spark SQL and Python visualization libraries. The goal is to identify top customers, analyze sales trends over time, and uncover regional or product-based insights. Final visualizations were created in Jupyter Notebook and (optionally) Power BI for dashboard reporting.
+
+---
+
+## SQL Queries and Reports
+
+- **Top Customers Report**: 
+  - Queried total `saleamount` grouped by `customerid`.
+  - Joined with the customer table to display customer names.
+  - Sorted in descending order to identify the highest spending customers.
+
+- **Sales Drilldown Report**:
+  - Extracted `year`, `quarter`, and `month` from `saledate_parsed`.
+  - Grouped sales data by year, quarter, and month.
+  - Summarized total sales to detect seasonal patterns and trends.
+
+- **Product Category Sales (Dicing)**:
+  - Grouped total sales by `product category` and `storeid`.
+  - Enabled cross-analysis of how product sales vary across different store regions.
+
+---
+
+## Dashboard Design Choices
+
+- **Top Customers Bar Chart**:
+  - A bar chart was chosen to allow easy comparison across customers by total spending.
+  - Customer names are rotated for readability.
+
+- **Sales Trends Line Chart**:
+  - A line chart was selected to visualize fluctuations in sales over time.
+  - Using markers (`o`) on the line helps highlight specific monthly or quarterly sales changes.
+
+- **Color Themes**:
+  - Light background with simple contrasting colors was used for accessibility and clarity.
+
+- **Chart Layout**:
+  - Charts were organized logically: first by customer-focused insights, then by time-based trends.
+
+---
+
+## Spark SQL Schema
+
+> _Screenshot of your Spark SQL schema or table structure here._
+
+![Spark SQL Schema](images/spark_sql_schema.png)
+
+---
+
+## Sample Query Results
+
+> _Screenshot of query results, e.g., Top Customers query output._
+
+![Top Customers Query Results](images/topcustomers_query.png)
+
+---
+
+## Final Dashboard / Charts
+
+> _Screenshot of final bar chart, line chart, or Power BI dashboard._
+
+![Sales Dashboard](images/sales_dashboard.png)
