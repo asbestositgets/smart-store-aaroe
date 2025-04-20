@@ -289,3 +289,97 @@ This project analyzes customer sales data from a smart store using Spark SQL and
 > _Screenshot of final bar chart, line chart, or Power BI dashboard._
 
 ![Sales Dashboard](images/sales_dashboard.png)
+
+
+### Module 6 - BI Insights and Storytelling
+
+## Section 1. The Business Goal
+   • 	Executive leadership and board members are seeking to re-evaluate the current product portfolio in order to gain a stronger competitive edge within the industry. As a starting point, they aim to identify low-performing products through data-driven analysis. These underperformers will then be evaluated for potential discontinuation or repositioning strategies, ensuring resources are focused on offerings with the highest potential for growth and profitability.
+## Section 2. Data Source
+   •	What information did you start with (prepared data, data warehouse, or pre-computed cube)? Prepared data
+   •	Clearly indicate which columns of which tables were used: Tables Used	sales_data_cleaned.csv, products_data.cleaned.csv
+Columns Used	productid, productname, category, storeid, transactionid, saleamount
+## Section 3. Tools
+   •	Tell us what tools you used and why: I selected Jupyter Notebook for this OLAP analysis because it supports an interactive, code-driven workflow and I enjoyed working with it in module 5. It allows me to combine Python code, data tables, visualizations, and documentation in one place. I also used ChatGPT as a resource in guiding me through code creation and resolving errors.
+Libraries used include:
+pandas for data handling and aggregation
+matplotlib and seaborn for data visualization 
+## Section 4. Workflow & Logic
+   •	### 🔹 Dimensions Used
+
+| Dimension      | Description                                   | Used In Goals          |
+|----------------|-----------------------------------------------|-------------------------|
+| `productid`    | Unique identifier for each product            | Goal 1, 2, 3            |
+| `productname`  | Descriptive product label                     | Goal 1, 2, 3            |
+| `category`     | Product category (e.g., Clothing, Electronics)| Goal 1, optional in 3   |
+| `storeid`      | Store location identifier                     | Goal 2, 3               |
+
+---
+
+### 🔢 Aggregations Performed
+
+| Aggregation                  | Description                                        | Used In        |
+|-----------------------------|----------------------------------------------------|----------------|
+| `count(transactionid)`      | Number of sales transactions per product (`TotalSales`) | Goal 1, 2, 3    |
+| `sum(saleamount)`           | Total revenue generated per product (`TotalRevenue`) | Goal 1 (contextual) |
+
+---
+
+### ⚙️ Logic Applied
+
+#### Goal 1: Identify Bottom-Performing Products
+- Grouped sales data by `productid` and `productname`
+- Counted sales transactions to calculate `TotalSales`
+- Sorted by `TotalSales` to identify the bottom 5 products
+
+#### Goal 2: Analyze by Store Location
+- Filtered the dataset to only include bottom 5 products
+- Grouped by `productid`, `productname`, and `storeid`
+- Counted sales per product per store
+- Pivoted results for visual analysis via a heatmap
+
+#### Goal 3: Recommend Strategic Actions
+Applied the following logic to the bottom 5 products based on store-level sales:
+
+| Condition                                  | Recommended Action |
+|-------------------------------------------|--------------------|
+| `TotalSales ≤ 5`                          | Discontinue        |
+| Sold in ≤ 2 stores                        | Reposition         |
+| Everything else                           | Review Further     |
+
+- Results were visualized in a color-coded bar chart
+- Final recommendations were exported as a CSV file
+    
+## Section 5 and 6. Results and Suggested Business Action 
+   •	Present your insights with narrative, visualizations any suggested actions based on the results you uncovered
+   After a thorough review of the analysis results, the five lowest-performing products identified were:
+
+Hat
+
+Hoodie
+
+Controller
+
+Football
+
+Jacket
+
+Based on performance metrics and strategic alignment, it is recommended that the Controller be considered for discontinuation due to consistently low sales and limited growth potential. The remaining four products — Hat, Hoodie, Football, and Jacket — should undergo further evaluation for potential repositioning. This may include exploring adjustments in pricing, promotional efforts, target market segments, or product bundling strategies to improve their performance. 
+## Results and Visualizations
+
+### Low Performing Products By Total Sales
+![Bottom 5 Products By Total Sales](images/low_performing_products.png)
+
+### Sales of Bottom 5 Products By Store (Heat Map)
+![Sales of Bottom 5 Products By Store](images/low_performance_by_store.png)
+
+### Underperforming Products - Recommended Actions (Chart)
+![Recommended Action For Bottom 5 Products](images/recommended_action.png)
+
+### Underperforming Products - Recommended Actions (CSV)
+[Download bottom5_recommendations.csv](output/bottom5_recommendations.csv)
+
+
+## Section 7. Challenges
+   •	Mention any challenges you encountered and how they were resolved.
+   Believe it or not, I did not experience many challenges during this module.  I might be getting the hang of this! If I had unlimited time, I would take a deeper dive into all of the OLAP processing. 
